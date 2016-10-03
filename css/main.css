@@ -1,0 +1,125 @@
+@font-face {
+    font-family: "Open Sans Light";
+    src: url(../fonts/OpenSans-Light.ttf);
+}
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url(../fonts/OpenSans-Regular.ttf);
+}
+
+body {
+    font-family: "Open Sans Light", Helvetica, Arial, sans-serif;
+    background-image: url('../assets/background.jpg');
+    background-size: cover;
+    color: #2A3644;
+    padding: 15px;
+}
+.wi {
+    color: #38445C;
+}
+#information-bar {
+    width: 500px;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding: 15px;
+    background-color: rgba(245, 245, 245, 0.7);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#information-bar > .col-xs-12 > .row {
+    margin-bottom: 20px;
+}
+#information-bar > .col-xs-12 > .row:last-child {
+    margin-bottom: 0;
+}
+#city {
+    font-size: 110%;
+    text-align: left;
+    font-family: "Open Sans Regular", Helvetica, Arial, sans-serif;
+    margin-bottom: 15px;
+}
+#main-temperature {
+    font-size: 450%;
+    text-align: left;
+    line-height: 75px;
+    font-family: "Open Sans Regular", Helvetica, Arial, sans-serif;
+}
+
+#weather-description .wi {
+    font-size: 300%;
+    margin-top: 10px;
+    line-height: 13px;
+}
+#weather-description .regular-font {
+    text-align: right;
+    font-weight: bold;
+}
+#weather-description .value {
+    text-align: right;
+    font-size: 90%
+}
+
+/*center-icons*/
+#center-icons > div {
+    margin-bottom: 10px;
+}
+#center-icons .wi{
+    font-size: 180%;
+    text-align: center;
+    display: block;
+}
+#center-info > div {
+    font-size: 90%;
+    text-align: center;
+}
+#calendarController {
+    margin-top: 30px;
+}
+.regular-font {
+    font-family: "Open Sans Regular", Helvetica, Arial, sans-serif;
+}
+hr {
+    border-color: #bbb;
+}
+
+.search-city {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 0 none;
+    border-radius: 17px;
+    padding: 3px 17px;
+    width: 280px;
+    transition: background 0.3s;
+}
+.search-city:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.search-city:focus,
+.search-city:active {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+#error-message {
+    background: rgba(255, 0, 0, 0.5);
+    border: 1px solid #d50000;
+    bottom: 10px;
+    color: #fff;
+    font-weight: bold;
+    margin: 10px;
+    padding: 5px;
+    position: fixed;
+    width: 30%;
+}
+
+/*Calendar*/
+#calendarController {
+    text-align: center;
+}
+#calendarController .date {
+    font-size: 150%;
+}
+#calendarController .hour {
+    font-size: 400%;
+    line-height: 50px;
+    margin-bottom: 10px;
+}

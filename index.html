@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="openWeatherApp">
+<head>
+    <meta charset="UTF-8">
+    <title>CC - Joel Mora Task 1</title>
+
+    <script src="js/libs/angular.min.js"></script>
+    <script src="js/libs/moment.min.js"></script>
+    <script src="js/libs/easeljs-0.8.2.min.js"></script>
+    <script src="js/libs/tweenjs-0.6.2.min.js"></script>
+    <script src="js/libs/angucomplete-alt.js"></script>
+
+    <link rel="stylesheet" href="css/grid.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/weather-icons.css">
+    <link rel="stylesheet" href="css/weather-icons-wind.css">
+    <link rel="stylesheet" href="css/angucomplete.css">
+</head>
+<body ng-controller="weatherController ">
+
+<div id="information-bar" class="row">
+
+    <div class="col-xs-7">
+        <div id="main-temperature">{{weather.main.temp | number:1}}°C</div>
+    </div>
+    <div class="col-xs-5">
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="city"><strong>City:</strong> {{weather.name}}, {{weather.sys.country}}</div>
+            </div>
+        </div>
+
+        <div id="weather-description" class="row">
+            <div class="col-xs-3" ng-hide="weather.sunsetAt < getHour()">
+                <i class="wi {{weather.weather[0].icon | toWiIcon}}"></i>
+            </div>
+            <div class="col-xs-3" ng-show="weather.sunsetAt < getHour()">
+                <i class="wi {{weather.weather[0].icon | toWiIcon}}"></i>
+            </div>
+            <div class="col-xs-9">
+                <div class="regular-font">{{weather.weather[0].main}}</div>
+                <div class="value">{{weather.weather[0].description}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <hr>
+    </div>
+
+    <div id="center-icons">
+        <div class="col-xs-3">
+            <i class="wi wi-thermometer"></i>
+        </div>
+        <div class="col-xs-3">
+            <i class="wi {{getBeaufortIcon()}}"></i>
+        </div>
+        <div class="col-xs-3">
+            <i class="wi wi-raindrops"></i>
+        </div>
+        <div class="col-xs-3">
+            <i class="wi wi-horizon" ng-hide="(weather.sys.sunset | toDate) < getHour()"></i>
+            <i class="wi wi-sunrise" ng-show="(weather.sys.sunset | toDate) < getHour()"></i>
+        </div>
+    </div>
+
+    <div id="center-info">
+        <div class="col-xs-3">
+            <span>Min:</span>
+            <span class="regular-font">{{weather.main.temp_min | number:2}}º</span>
+            <br>
+            <span>Max:</span>
+            <span class="regular-font">{{weather.main.temp_max | number:2}}º</span>
+        </div>
+        <div class="col-xs-3">
+            <div class="description regular-font">{{weather.wind.speed | windBeaufort:'description'}}</div>
+            <div class="value">{{weather.wind.speed | toKph}} k/h</div>
+        </div>
+        <div class="col-xs-3">
+            {{(weather.rain['3h'] | number:2) || 'N/A'}}
+            {{weather.rain ? 'mm' : ''}}
+        </div>
+        <div class="col-xs-3">
+            <div ng-hide="(weather.sys.sunset | toDate) < getHour()">
+                Sunset At:
+                <br>
+                <span class="sunset-time regular-font">{{weather.sys.sunset | toDate}}</span>
+            </div>
+            <div ng-show="(weather.sys.sunset | toDate) < getHour()">
+                Sunrise At:
+                <br>
+                <span class="sunset-time regular-font">{{weather.sys.sunrise | toDate}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <hr>
+    </div>
+
+    <div class="col-xs-5">
+        <clock width="155" height="155"></clock>
+    </div>
+    <div class="col-xs-7">
+        <div id="calendarController" class="row" ng-controller="calendarController">
+            <div class="col-xs-12">
+                <div class="hour">{{hour}}</div>
+                <div class="date">{{weekday}}, <strong>{{day}}</strong> {{month}}</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<angucomplete-alt id="search-city"
+                  placeholder="{{placeholderCitySearch}}"
+                  pause="200"
+                  selected-object="selectedCity"
+                  local-data="cities"
+                  search-fields="n,c"
+                  title-field="n,c"
+                  minlength="3"
+                  override-suggestions="true"
+                  match-class="highlight"
+                  input-class="search-city"
+                  clear-selected="true"
+                  disable-input="disableCitySearch"
+></angucomplete-alt>
+
+<div id="error-message" ng-show="errorShowing">
+    {{errorMessage}}
+</div>
+
+<!-- Angular App -->
+<script src="js/app.js"></script>
+
+<!-- Controllers -->
+<script src="js/controllers/weatherController.js"></script>
+<script src="js/controllers/calendarController.js"></script>
+
+<!-- Services -->
+<script src="js/services/weatherService.js"></script>
+
+<!-- Filters -->
+<script src="js/filters/weatherFilters.js"></script>
+
+<!-- Directives -->
+<script src="js/directives/clockDirective.js"></script>
+</body>
+</html>
