@@ -37,9 +37,13 @@ app.controller('weatherController', ['$scope', '$http', 'weatherService', '$time
 
         if (citySelected) {
             if (citySelected.originalObject.id) {
-                weatherService.getWeatherByCityId(citySelected.originalObject.id).success(this.weatherSuccessCallback);
+                weatherService.getWeatherByCityId(citySelected.originalObject.id)
+                    .success(this.weatherSuccessCallback)
+                    .error(this.weatherErrorCallback);
             } else {
-                weatherService.getWeatherByQuery(citySelected.originalObject).success(this.weatherSuccessCallback);
+                weatherService.getWeatherByQuery(citySelected.originalObject)
+                    .success(this.weatherSuccessCallback)
+                    .error(this.weatherErrorCallback);
             }
         }
     }.bind(this));
@@ -71,22 +75,35 @@ app.controller('weatherController', ['$scope', '$http', 'weatherService', '$time
     //if location from the browser was successful
     this.locationFound = function(position)
     {
-        weatherService.getWeatherByCoordinates(position.coords.latitude, position.coords.longitude).success(this.weatherSuccessCallback);
+        weatherService.getWeatherByCoordinates(position.coords.latitude, position.coords.longitude)
+            .success(this.weatherSuccessCallback)
+            .error(this.weatherErrorCallback);
     }.bind(this);
 
     this.weatherSuccessCallback = function(data)
     {
         if (data.cod != 200) {
-            $scope.errorMessage = data.message;
-            $scope.errorShowing = true;
-
-            $timeout(function () {
-                $scope.errorShowing = false;
-            }, 5000);
-
+            this.showMessage(data.message);
         } else {
             $scope.weather = data;
         }
+    }.bind(this);
+
+    //weatherError
+    this.weatherErrorCallback = function(error)
+    {
+        this.showMessage(error.message);
+    }.bind(this);
+
+    //show message to the client
+    this.showMessage = function(msg)
+    {
+        $scope.errorMessage = msg;
+        $scope.errorShowing = true;
+
+        $timeout(function () {
+            $scope.errorShowing = false;
+        }, 5000);
     };
 
     //load open weather city list on load
